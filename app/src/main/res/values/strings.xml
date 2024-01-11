@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GitHub User</string>
+    <string name="searchbar_placeholder">Masukkan nama user</string>
+    <string name="this_activity">Ini adalah menu activity</string>
 </resources>
