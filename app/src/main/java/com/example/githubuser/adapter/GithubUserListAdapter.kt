@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.githubuser.data.parcel.GithubUser
 import com.example.githubuser.data.response.ItemsItem
 import com.example.githubuser.databinding.ComponentUserItemBinding
 import com.example.githubuser.ui.ProfileActivity
@@ -58,8 +59,13 @@ class GithubUserListAdapter :
         val item = getItem(position)
         holder.bind(item)
 
+        val githubUser = GithubUser(
+            item.login
+        )
+
         holder.itemView.setOnClickListener { view ->
             val moveIntent = Intent(holder.itemView.context, ProfileActivity::class.java)
+            moveIntent.putExtra(ProfileActivity.GITHUB_USER, githubUser)
             view.context.startActivity(moveIntent)
         }
     }
