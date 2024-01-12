@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.airbnb.lottie.LottieAnimationView
 import com.example.githubuser.adapter.GithubUserListAdapter
 import com.example.githubuser.data.response.GithubUsersResponse
 import com.example.githubuser.data.response.ItemsItem
@@ -40,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         binding.rvUser.addItemDecoration(itemDecoration)
 
         getUsers()
+
+        val githubLoading = binding.githubLoading
+        githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
     }
 
     private fun setUserListData(user: List<ItemsItem>) {
@@ -63,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
                 // menyembunyikan loading indicator
                 showLoading(false)
+                Log.e(TAG, "Res: $response")
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -89,9 +94,9 @@ class MainActivity : AppCompatActivity() {
     // function untuk menampilkan atau menyembunyikan loading indicator
     private fun showLoading(b: Boolean) {
         if (b) {
-            binding.progressBar.visibility = View.VISIBLE
+            binding.githubLoading.visibility = View.VISIBLE
         } else {
-            binding.progressBar.visibility = View.GONE
+            binding.githubLoading.visibility = View.GONE
         }
     }
 
