@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.githubuser.data.response.ItemsItem
 import com.example.githubuser.databinding.ComponentUserItemBinding
 
@@ -23,10 +24,21 @@ class GithubUserListAdapter :
         }
     }
 
-    class ViewHolder(val binding: ComponentUserItemBinding) :
+    class ViewHolder(private val binding: ComponentUserItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ItemsItem) {
-            binding.tvItem.text = "${item.id}\n${item.login}"
+            // menampilkan username
+            binding.tvUsername.text = item.login
+
+            // menampilkan user ID
+            binding.tvUserId.text = item.id
+
+            // menampilkan user avatar
+            Glide
+                .with(binding.imageView.context)
+                .load(item.avatarUrl)
+                .into(binding.imageView)
+
         }
     }
 

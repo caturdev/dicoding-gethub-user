@@ -62,7 +62,7 @@ data class ItemsItem(
     val siteAdmin: Boolean? = null,
 
     @field:SerializedName("id")
-    val id: Int? = null,
+    val id: String? = null,
 
     @field:SerializedName("gravatar_id")
     val gravatarId: String? = null,
