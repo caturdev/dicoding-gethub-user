@@ -1,5 +1,6 @@
 package com.example.githubuser.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubuser.data.response.ItemsItem
 import com.example.githubuser.databinding.ComponentUserItemBinding
+import com.example.githubuser.ui.ProfileActivity
 
 class GithubUserListAdapter :
     ListAdapter<ItemsItem, GithubUserListAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -55,6 +57,11 @@ class GithubUserListAdapter :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+
+        holder.itemView.setOnClickListener { view ->
+            val moveIntent = Intent(holder.itemView.context, ProfileActivity::class.java)
+            view.context.startActivity(moveIntent)
+        }
     }
 
 
