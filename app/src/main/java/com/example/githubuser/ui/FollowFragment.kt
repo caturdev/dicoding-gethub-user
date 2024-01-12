@@ -1,12 +1,19 @@
 package com.example.githubuser.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.R
-import com.example.githubuser.adapter.FollowPagerAdapter
+import com.example.githubuser.adapter.GithubUserListAdapter
+import com.example.githubuser.bloc.ProfileViewModel
+import com.example.githubuser.data.response.ItemsItem
+import com.example.githubuser.databinding.FragmentFollowBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +26,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class FollowFragment : Fragment() {
+
+    private lateinit var binding: FragmentFollowBinding
 
     companion object {
         const val ARG_SECTION_NUMBER = "section_number"
@@ -34,9 +43,46 @@ class FollowFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentFollowBinding.inflate(layoutInflater)
+        super.onViewCreated(binding.root, savedInstanceState)
 
         val username = arguments?.getString(GITHUB_USERNAME)
+        val position = arguments?.getInt(ARG_SECTION_NUMBER)
+
+        val profileViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        )[ProfileViewModel::class.java]
+
+        // -------------------------------
+        // Block untuk menangani list view
+        // -------------------------------
+        val layoutManager = LinearLayoutManager(requireActivity())
+        binding.rvFollow.layoutManager = layoutManager
+
+        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+        binding.rvFollow.addItemDecoration(itemDecoration)
+
+        // menentukan tindakan apabila section sekarang adalah followers (index 1)
+        if (position == 1) {
+            profileViewModel.getUserFollowers(username ?: "")
+        }
+
+        // menentukan tindakan apabila section sekarang adalah following (index 2)
+        if (position == 2) {
+            profileViewModel.getUserFollowing(username ?: "")
+        }
+
+        profileViewModel.followers.observe(viewLifecycleOwner) { user -> setUserFollow(user) }
+        profileViewModel.following.observe(viewLifecycleOwner) { user -> setUserFollow(user) }
+
     }
+
+    private fun setUserFollow(user: List<ItemsItem>) {
+        val adapter = GithubUserListAdapter()
+        adapter.submitList(user)
+        binding.rvFollow.adapter = adapter
+    }
+
 
 }
