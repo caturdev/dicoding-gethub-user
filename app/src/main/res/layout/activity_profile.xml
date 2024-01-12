@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.ProfileActivity">
 
     <LinearLayout
@@ -12,19 +13,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
-            android:layout_width="65dp"
-            android:layout_height="65dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp" />
 
         <TextView
             android:id="@+id/username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
 
     </LinearLayout>
 
@@ -42,5 +48,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>
