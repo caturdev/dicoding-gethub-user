@@ -43,7 +43,7 @@ class FollowFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = FragmentFollowBinding.inflate(layoutInflater)
+        binding = FragmentFollowBinding.bind(view)
         super.onViewCreated(binding.root, savedInstanceState)
 
         val username = arguments?.getString(GITHUB_USERNAME)
@@ -57,32 +57,38 @@ class FollowFragment : Fragment() {
         // -------------------------------
         // Block untuk menangani list view
         // -------------------------------
-        val layoutManager = LinearLayoutManager(requireActivity())
+        val layoutManager = LinearLayoutManager(activity)
         binding.rvFollow.layoutManager = layoutManager
 
         val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
         binding.rvFollow.addItemDecoration(itemDecoration)
 
+        setUserFollow(listOf(ItemsItem(login = "sidiqpermana")))
         // menentukan tindakan apabila section sekarang adalah followers (index 1)
         if (position == 1) {
             profileViewModel.getUserFollowers(username ?: "")
+            Log.d("XX001", "get data followers")
         }
 
         // menentukan tindakan apabila section sekarang adalah following (index 2)
         if (position == 2) {
             profileViewModel.getUserFollowing(username ?: "")
+            Log.d("XX001", "get data following")
         }
 
-        profileViewModel.followers.observe(viewLifecycleOwner) { user -> setUserFollow(user) }
-        profileViewModel.following.observe(viewLifecycleOwner) { user -> setUserFollow(user) }
+        profileViewModel.followers.observe(viewLifecycleOwner) { users: List<ItemsItem> ->
+            setUserFollow(users)
+        }
+        profileViewModel.following.observe(viewLifecycleOwner) { users: List<ItemsItem> ->
+            setUserFollow(users)
+        }
 
     }
 
-    private fun setUserFollow(user: List<ItemsItem>) {
+    private fun setUserFollow(users: List<ItemsItem>) {
         val adapter = GithubUserListAdapter()
-        adapter.submitList(user)
+        adapter.submitList(users)
         binding.rvFollow.adapter = adapter
     }
-
-
+    
 }
