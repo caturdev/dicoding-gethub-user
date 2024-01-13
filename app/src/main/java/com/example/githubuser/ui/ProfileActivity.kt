@@ -1,16 +1,14 @@
 package com.example.githubuser.ui
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.githubuser.R
 import com.example.githubuser.adapter.FollowPagerAdapter
-import com.example.githubuser.bloc.MainViewModel
 import com.example.githubuser.bloc.ProfileViewModel
 import com.example.githubuser.data.parcel.GithubUser
 import com.example.githubuser.data.response.GithubUserDetailResponse
@@ -57,24 +55,25 @@ class ProfileActivity : AppCompatActivity() {
         // Block untuk menangani list view
         // -------------------------------
         profileViewModel.getUserDetail(githubUser?.username ?: "")
-        profileViewModel.user.observe(this) { user -> setUserData(user) }
+        profileViewModel.user.observe(this) { user ->
+            setUserData(user)
 
-        // -------------------------------
-        // mengirimkan data username ke pager adapter
-        // -------------------------------
-        val sectionPagerAdapter = FollowPagerAdapter(this)
-        sectionPagerAdapter.username = githubUser?.username ?: ""
+            val viewPager: ViewPager2 = binding.viewPager
 
-        val viewPager: ViewPager2 = binding.viewPager
+            val sectionPagerAdapter = FollowPagerAdapter(this)
+            sectionPagerAdapter.username = githubUser?.username ?: ""
 
-        viewPager.adapter = sectionPagerAdapter
-        val tabs: TabLayout = binding.tabs
+            viewPager.adapter = sectionPagerAdapter
+            val tabs: TabLayout = binding.tabs
 
-        TabLayoutMediator(tabs, viewPager) { tab, position ->
-            tab.text = resources.getString(
-                TAB_TITLES[position]
-            )
-        }.attach()
+            TabLayoutMediator(tabs, viewPager) { tab, position ->
+                tab.text = when (position) {
+                    0 -> "Followers ${user.followers.toString()}"
+                    1 -> "Following ${user.following.toString()}"
+                    else -> ""
+                }
+            }.attach()
+        }
 
         supportActionBar?.elevation = 0f
 
@@ -88,8 +87,17 @@ class ProfileActivity : AppCompatActivity() {
             .load(user.avatarUrl)
             .into(binding.imageView)
 
-        // menampilkan username
-        binding.username.text = user.login
+        // show name data
+        binding.name.text = user.name
+
+        // show username data
+        binding.username.text = "@${user.login}"
+
+        // show location data
+        binding.location.text = user.location
+
+        // show company data
+        binding.company.text = user.company
 
     }
 }
