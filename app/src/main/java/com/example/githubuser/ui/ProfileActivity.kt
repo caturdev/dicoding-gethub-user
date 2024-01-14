@@ -2,8 +2,10 @@ package com.example.githubuser.ui
 
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -19,6 +21,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
+    private lateinit var toolbar: Toolbar
 
     companion object {
         @StringRes
@@ -35,6 +38,12 @@ class ProfileActivity : AppCompatActivity() {
 
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        toolbar = binding.topAppBar
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val profileViewModel = ViewModelProvider(
             this,
@@ -99,5 +108,14 @@ class ProfileActivity : AppCompatActivity() {
         // show company data
         binding.company.text = user.company
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // handle arrow click here
+        if (item.itemId == android.R.id.home) {
+            finish() // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
