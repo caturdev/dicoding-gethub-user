@@ -2,7 +2,6 @@ package com.example.githubuser.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,11 +27,6 @@ class MainActivity : AppCompatActivity() {
             val resultValue = result.data?.getStringExtra(SearchActivity.EXTRA_SELECTED_VALUE)
             mainViewModel.getUsers(resultValue ?: "")
         }
-    }
-
-    companion object {
-        private const val TAG = "MainActivity"
-        private const val USER_ID = "sidiqpermana"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
