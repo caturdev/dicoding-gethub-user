@@ -37,20 +37,43 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        // -----
+        // Init Lottie Files
+        //
+        // block ini untuk melakukan init lottie files
+        // untuk keperluan loading indicator
+        // -----
+        val githubLoading = binding.githubLoading
+        githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
+
+        // -----
+        // Load View Model
+        //
+        // Section di bawah malakukan init view model
+        // -----
         mainViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         )[MainViewModel::class.java]
 
-        // -------------------------------
-        // Block untuk menangani list view
-        // -------------------------------
+        // -----
+        // Init Layout Manager
+        //
+        // Section di bawah melakukan init layout manager
+        // layout manager untuk display recycler view
+        // -----
         val layoutManager = LinearLayoutManager(this)
         binding.rvUser.layoutManager = layoutManager
 
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvUser.addItemDecoration(itemDecoration)
 
+        // -----
+        // Listening users data
+        //
+        // block ini melakukan listening data users
+        // untuk menentukan melakukan render ulang saat data users berubah
+        // -----
         mainViewModel.users.observe(this) { user -> setUserListData(user) }
 
         // -----
@@ -60,12 +83,6 @@ class MainActivity : AppCompatActivity() {
         // untuk menentukan apakah loading indicator ditampilkan atau tidak
         // -----
         mainViewModel.isLoading.observe(this) { isLoading -> showLoading(isLoading) }
-
-        // -------------------------------
-        // Block untuk lottie animation
-        // -------------------------------
-        val githubLoading = binding.githubLoading
-        githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
 
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -77,6 +94,11 @@ class MainActivity : AppCompatActivity() {
 
                 else -> false
             }
+        }
+
+        binding.fab.setOnClickListener { view: View ->
+            val intent = Intent(this@MainActivity, SearchActivity::class.java)
+            searchResultLauncher.launch(intent)
         }
 
     }

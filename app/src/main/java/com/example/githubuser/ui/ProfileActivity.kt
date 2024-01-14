@@ -45,14 +45,22 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        // -----
+        // Load View Model
+        //
+        // Section di bawah malakukan init view model
+        // -----
         val profileViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         )[ProfileViewModel::class.java]
 
-        // -------------------------------
-        // Mengambil data dari data parcel
-        // -------------------------------
+        // -----
+        // Get Parcelable
+        //
+        // Section di bawah untuk mengambil data yang dikirimkan dari main activity
+        // yang berupa data detail user kedalam variabel githubUser
+        // -----
         val githubUser = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra<GithubUser>(GITHUB_USER, GithubUser::class.java)
         } else {
@@ -60,10 +68,15 @@ class ProfileActivity : AppCompatActivity() {
             intent.getParcelableExtra<GithubUser>(GITHUB_USER)
         }
 
-        // -------------------------------
-        // Block untuk menangani list view
-        // -------------------------------
+        // -----
+        // Load User Followes/Following Data
+        //
+        // Section di bawah untuk mengambil data followes/following data
+        // berdasarakan data suer yang dikirimkan dari main activity
+        // dan diterima dari sestion sebelumnya
+        // -----
         profileViewModel.getUserDetail(githubUser?.username ?: "")
+
         profileViewModel.user.observe(this) { user ->
             setUserData(user)
 
@@ -88,7 +101,18 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun setUserData(user: GithubUserDetailResponse) {
+    /**
+     * Set User Data
+     * -------------
+     * Function untuk melakukan render data user pada sesi header component
+     * data diambil dari proses get API github
+     *
+     *
+     *
+     * @param [GithubUserDetailResponse] user data
+     * @return [Unit]
+     */
+    private fun setUserData(user: GithubUserDetailResponse): Unit {
 
         // menampilkan user avatar
         Glide
@@ -110,6 +134,17 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * On Option Item Selected
+     * -----------------------
+     * Function untuk menangani appbar action
+     * salah satunya untuk menangani tombol back pada appbar
+     *
+     *
+     *
+     * @param [MenuItem] - object item yang meresponse
+     * @return [Boolean]
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {

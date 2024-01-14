@@ -39,22 +39,30 @@ class FollowFragment : Fragment() {
         val username = arguments?.getString(GITHUB_USERNAME)
         val position = arguments?.getInt(ARG_SECTION_NUMBER)
 
-        // -------------------------------
-        // Block untuk lottie animation
-        // -------------------------------
+        // -----
+        // Init Lottie Files
+        //
+        // block ini untuk melakukan init lottie files
+        // untuk keperluan loading indicator
+        // -----
         val githubLoading = binding.githubLoading
         githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
 
+        // -----
+        // Load View Model
+        //
+        // Section di bawah malakukan init view model
+        // -----
         val profileViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         )[ProfileViewModel::class.java]
 
         // -----
-        // List View Block
+        // Init Layout Manager
         //
-        // block ini untuk menangani list view
-        // dengan menggunakan Recycler View
+        // Section di bawah melakukan init layout manager
+        // layout manager untuk display recycler view
         // -----
         val layoutManager = LinearLayoutManager(activity)
         binding.rvFollow.layoutManager = layoutManager
