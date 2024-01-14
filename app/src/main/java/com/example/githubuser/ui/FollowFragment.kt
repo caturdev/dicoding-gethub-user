@@ -15,16 +15,6 @@ import com.example.githubuser.bloc.ProfileViewModel
 import com.example.githubuser.data.response.ItemsItem
 import com.example.githubuser.databinding.FragmentFollowBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FollowFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FollowFragment : Fragment() {
 
     private lateinit var binding: FragmentFollowBinding
@@ -49,21 +39,29 @@ class FollowFragment : Fragment() {
         val username = arguments?.getString(GITHUB_USERNAME)
         val position = arguments?.getInt(ARG_SECTION_NUMBER)
 
+        // -------------------------------
+        // Block untuk lottie animation
+        // -------------------------------
+        val githubLoading = binding.githubLoading
+        githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
+
         val profileViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         )[ProfileViewModel::class.java]
 
-        // -------------------------------
-        // Block untuk menangani list view
-        // -------------------------------
+        // -----
+        // List View Block
+        //
+        // block ini untuk menangani list view
+        // dengan menggunakan Recycler View
+        // -----
         val layoutManager = LinearLayoutManager(activity)
         binding.rvFollow.layoutManager = layoutManager
 
         val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
         binding.rvFollow.addItemDecoration(itemDecoration)
 
-        setUserFollow(listOf(ItemsItem(login = "sidiqpermana")))
         // menentukan tindakan apabila section sekarang adalah followers (index 1)
         if (position == 1) {
             profileViewModel.getUserFollowers(username ?: "")
@@ -83,12 +81,48 @@ class FollowFragment : Fragment() {
             setUserFollow(users)
         }
 
+        // -----
+        // Listening is loading data
+        //
+        // block ini melakukan listening data isLoading
+        // untuk menentukan apakah loading indicator ditampilkan atau tidak
+        // -----
+        profileViewModel.isLoading.observe(viewLifecycleOwner) { isLoading -> showLoading(isLoading) }
+
     }
 
-    private fun setUserFollow(users: List<ItemsItem>) {
+    /**
+     * Set User Follow
+     * ---------------
+     * Function untuk menampilkan list data follower atau following dengan menggunakan Recycler View
+     * dengan menggunakan data list items user
+     *
+     *
+     *
+     * @param [List<ItemsItem>] - data yang akan dilakukan mapping
+     * @return [Unit]
+     */
+    private fun setUserFollow(users: List<ItemsItem>): Unit {
         val adapter = GithubUserListAdapter()
         adapter.submitList(users)
         binding.rvFollow.adapter = adapter
     }
-    
+
+    /**
+     * Show Loading
+     * ------------
+     * Function untuk menentukan apakah loading indicator akan ditampilkan atau tidak
+     * loading indicator berada di file XML dengan ID github_loading
+     *
+     *
+     *
+     * @param [Boolean] - ketentuan apakah loading akan ditampilkan atau tidak
+     * @return [Unit]
+     */
+    private fun showLoading(b: Boolean): Unit = if (b) {
+        binding.githubLoading.visibility = View.VISIBLE
+    } else {
+        binding.githubLoading.visibility = View.GONE
+    }
+
 }

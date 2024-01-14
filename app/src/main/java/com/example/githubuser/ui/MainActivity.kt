@@ -59,9 +59,12 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel.users.observe(this) { user -> setUserListData(user) }
 
-        // -------------------------------
-        // Block untuk menangani loading indicator
-        // -------------------------------
+        // -----
+        // Listening is loading data
+        //
+        // block ini melakukan listening data isLoading
+        // untuk menentukan apakah loading indicator ditampilkan atau tidak
+        // -----
         mainViewModel.isLoading.observe(this) { isLoading -> showLoading(isLoading) }
 
         // -------------------------------
@@ -84,19 +87,38 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setUserListData(user: List<ItemsItem>) {
+    /**
+     * Set User List Data
+     * ------------------
+     * Function untuk menampilkan list data dengan menggunakan Recycler View
+     * dengan menggunakan data list items user
+     *
+     *
+     *
+     * @param [List<ItemsItem>] - data yang akan dilakukan mapping
+     * @return [Unit]
+     */
+    private fun setUserListData(user: List<ItemsItem>): Unit {
         val adapter = GithubUserListAdapter()
         adapter.submitList(user)
         binding.rvUser.adapter = adapter
     }
 
-    // function untuk menampilkan atau menyembunyikan loading indicator
-    private fun showLoading(b: Boolean) {
-        if (b) {
-            binding.githubLoading.visibility = View.VISIBLE
-        } else {
-            binding.githubLoading.visibility = View.GONE
-        }
+    /**
+     * Show Loading
+     * ------------
+     * Function untuk menentukan apakah loading indicator akan ditampilkan atau tidak
+     * loading indicator berada di file XML dengan ID github_loading
+     *
+     *
+     *
+     * @param [Boolean] - ketentuan apakah loading akan ditampilkan atau tidak
+     * @return [Unit]
+     */
+    private fun showLoading(b: Boolean): Unit = if (b) {
+        binding.githubLoading.visibility = View.VISIBLE
+    } else {
+        binding.githubLoading.visibility = View.GONE
     }
 
 }
