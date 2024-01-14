@@ -25,14 +25,14 @@ class MainViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     init {
-        getUsers()
+        getUsers(USER_ID)
     }
 
-    private fun getUsers() {
+    fun getUsers(usernmae: String) {
         // menampilkan loading indicator
         _isLoading.value = true
 
-        val client = ApiConfig.getApiService().getUser(USER_ID)
+        val client = ApiConfig.getApiService().getUser(usernmae)
         client.enqueue(object : Callback<GithubUsersResponse> {
 
             // response handler untuk response
@@ -43,7 +43,7 @@ class MainViewModel : ViewModel() {
 
                 // menyembunyikan loading indicator
                 _isLoading.value = false
-                Log.e(MainViewModel.TAG, "Res: $response")
+                Log.e(TAG, "Res: $response")
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -51,7 +51,7 @@ class MainViewModel : ViewModel() {
                         _users.value = responseBody.items
                     }
                 } else {
-                    Log.e(MainViewModel.TAG, "Error: ${response.message()}")
+                    Log.e(TAG, "Error: ${response.message()}")
                 }
 
             }
