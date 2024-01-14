@@ -34,7 +34,7 @@ class GithubUserListAdapter :
             binding.tvUsername.text = item.login
 
             // menampilkan user ID
-            binding.tvUserId.text = item.id
+            binding.tvUserId.text = "ID ${item.id}"
 
             // menampilkan user avatar
             Glide
