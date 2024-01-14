@@ -3,6 +3,7 @@ package com.example.githubuser.ui
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -45,6 +46,17 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        binding.imageView.visibility = View.GONE
+
+        // -----
+        // Init Lottie Files
+        //
+        // block ini untuk melakukan init lottie files
+        // untuk keperluan loading indicator
+        // -----
+        val githubLoading = binding.githubLoading
+        githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
+        
         // -----
         // Load View Model
         //
@@ -119,6 +131,9 @@ class ProfileActivity : AppCompatActivity() {
             .with(binding.imageView.context)
             .load(user.avatarUrl)
             .into(binding.imageView)
+
+        binding.githubLoading.visibility = View.GONE
+        binding.imageView.visibility = View.VISIBLE
 
         // show name data
         binding.name.text = user.name

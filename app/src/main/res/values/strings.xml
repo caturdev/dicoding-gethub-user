@@ -8,13 +8,14 @@
     <string name="tab_following">Following</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
-    <string name="placeholder_company">company</string>
-    <string name="placeholder_username">Username</string>
-    <string name="placeholder_location">location</string>
+    <string name="placeholder_company">no company</string>
+    <string name="placeholder_username">no username</string>
+    <string name="placeholder_location">no location</string>
     <string name="search_user">search user</string>
     <string name="github_users">GitHub Users</string>
     <string name="detail_user">Detail User</string>
     <string name="seach_button">seach button</string>
     <string name="hallo_selamat_datang">Hallo Selamat Datang</string>
     <string name="silahkan_melakukan_pencarian_user_github_di_sini">silahkan melakukan pencarian user github di sini</string>
+    <string name="placeholder_name">no name</string>
 </resources>
