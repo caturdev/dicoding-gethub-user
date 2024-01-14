@@ -10,11 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Untuk sementara menu search diganti menggunakan FAB -->
+        <!-- app:menu="@menu/option_menu" -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/option_menu"
             app:title="@string/github_users" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -45,5 +46,15 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:backgroundTint="@color/blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="25dp"
+        app:srcCompat="@android:drawable/ic_menu_search"
+        android:contentDescription="@string/seach_button" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
