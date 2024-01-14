@@ -13,4 +13,5 @@
     <string name="placeholder_location">location</string>
     <string name="search_user">search user</string>
     <string name="github_users">GitHub Users</string>
+    <string name="detail_user">Detail User</string>
 </resources>
