@@ -14,4 +14,5 @@
     <string name="search_user">search user</string>
     <string name="github_users">GitHub Users</string>
     <string name="detail_user">Detail User</string>
+    <string name="seach_button">seach button</string>
 </resources>
