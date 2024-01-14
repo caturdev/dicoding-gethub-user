@@ -1,28 +1,34 @@
 package com.example.githubuser.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.airbnb.lottie.LottieAnimationView
+import com.example.githubuser.R
 import com.example.githubuser.adapter.GithubUserListAdapter
 import com.example.githubuser.bloc.MainViewModel
-import com.example.githubuser.data.response.GithubUsersResponse
 import com.example.githubuser.data.response.ItemsItem
-import com.example.githubuser.data.retrofit.ApiConfig
 import com.example.githubuser.databinding.ActivityMainBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mainViewModel: MainViewModel
+
+    private val searchResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == SearchActivity.RESULT_CODE && result.data != null) {
+            val resultValue = result.data?.getStringExtra(SearchActivity.EXTRA_SELECTED_VALUE)
+            mainViewModel.getUsers(resultValue ?: "")
+        }
+    }
 
     companion object {
         private const val TAG = "MainActivity"
@@ -37,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val mainViewModel = ViewModelProvider(
+        mainViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         )[MainViewModel::class.java]
@@ -63,6 +69,19 @@ class MainActivity : AppCompatActivity() {
         // -------------------------------
         val githubLoading = binding.githubLoading
         githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
+
+        binding.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search_menu -> {
+                    val intent = Intent(this@MainActivity, SearchActivity::class.java)
+                    searchResultLauncher.launch(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
+
     }
 
     private fun setUserListData(user: List<ItemsItem>) {
