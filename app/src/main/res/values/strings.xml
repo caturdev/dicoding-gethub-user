@@ -11,4 +11,6 @@
     <string name="placeholder_company">company</string>
     <string name="placeholder_username">Username</string>
     <string name="placeholder_location">location</string>
+    <string name="search_user">search user</string>
+    <string name="github_users">GitHub Users</string>
 </resources>
