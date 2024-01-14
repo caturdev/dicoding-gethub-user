@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
             val resultValue = result.data?.getStringExtra(SearchActivity.EXTRA_SELECTED_VALUE)
             mainViewModel.getUsers(resultValue ?: "")
         }
+
+        binding.emptyPlaceholder.visibility = View.GONE
+        binding.emptyPlaceholderDesc.visibility = View.GONE
+        binding.emptyPlaceholderDescSub.visibility = View.GONE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +49,15 @@ class MainActivity : AppCompatActivity() {
         // -----
         val githubLoading = binding.githubLoading
         githubLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
+
+        // -----
+        // Init Lottie Files
+        //
+        // block ini untuk melakukan init lottie files
+        // untuk keperluan placeholder saat pertama user belum melakukan pencarian github user
+        // -----
+        val emptyPlaceholder = binding.emptyPlaceholder
+        emptyPlaceholder.setAnimationFromUrl("https://lottie.host/17faed6a-c2bf-4130-8f6b-3702d625576b/LEJ9NRrh3p.json")
 
         // -----
         // Load View Model

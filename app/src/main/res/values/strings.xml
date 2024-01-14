@@ -15,4 +15,6 @@
     <string name="github_users">GitHub Users</string>
     <string name="detail_user">Detail User</string>
     <string name="seach_button">seach button</string>
+    <string name="hallo_selamat_datang">Hallo Selamat Datang</string>
+    <string name="silahkan_melakukan_pencarian_user_github_di_sini">silahkan melakukan pencarian user github di sini</string>
 </resources>

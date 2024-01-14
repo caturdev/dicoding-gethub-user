@@ -15,7 +15,6 @@ class MainViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "MainViewModel"
-        private const val USER_ID = "sidiqpermana"
     }
 
     private val _users = MutableLiveData<List<ItemsItem>>()
@@ -25,14 +24,17 @@ class MainViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     init {
-        getUsers(USER_ID)
+        _isLoading.value = false
     }
 
-    fun getUsers(usernmae: String) {
+    fun getUsers(username: String) {
         // menampilkan loading indicator
         _isLoading.value = true
 
-        val client = ApiConfig.getApiService().getUser(usernmae)
+        // mengosongkan list user supaya tidak bertumpuk
+        _users.value = listOf()
+
+        val client = ApiConfig.getApiService().getUser(username)
         client.enqueue(object : Callback<GithubUsersResponse> {
 
             // response handler untuk response
